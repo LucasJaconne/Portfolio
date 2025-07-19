@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TriumTech</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+</head>
+
+<body>
+  <!-- Header com logo e menu -->
+  <header class="site-header container">
+    <div class="logo-placeholder"><a href="index.html"><img src="logo.png" alt="trium" id="imagem"></a></div>
+    <nav>
+      <a href="#section-projects" class="btn-glass">Projetos</a>
+      <a href="#section-about" class="btn-glass">Sobre Nós</a>
+      <a href="#section-contact" class="btn-glass">Contato</a>
+    </nav>
+  </header>
+
+  <!-- Seção Inicial -->
+  <section class="section-hero" id="section-hero">
+    <div>
+      <h1>Criação de Sites Profissionais em WordPress</h1>
+      <p>Design minimalista, performance excepcional</p>
+    </div>
+    <div class="scroll-down" onclick="scrollToProjects()">
+      <div class="mouse">
+        <div class="wheel"></div>
+      </div>
+      <span></span>
+    </div>
+  </section>
+
+  <!-- Seção Projetos -->
+  <section id="section-projects" class="section-projects container">
+    <h2>Nossos Projetos</h2>
+
+    <div class="project">
+      <div class="project-image"><a href="https://portalcidadenet.com.br/" target="_blank"><img src="imagem-sites/portalcidade.png" alt="Portal" ></a></div>
+      <div class="project-info">
+        <h3>Portal Cidade Net</h3>
+        <p>Site de notícias regional com seções dinâmicas, responsivo e atualizado via painel do WordPress.</p>
+        <a href="https://portalcidadenet.com.br" target="_blank" class="project-link">Ver projeto</a>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-image"><a href="https://afloralook.com.br/" target="_blank"><img src="imagem-sites/aflora.png" alt="Afloralook" ></a></div>
+      <div class="project-info">
+        <h3>Afloralook</h3>
+        <p>Site institucional focado em moda e estilo, com identidade visual personalizada e visual responsivo.</p>
+        <a href="https://afloralook.com.br" target="_blank" class="project-link">Ver projeto</a>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-image"><img src="imagem-sites/viva.png" alt="VivaCofee" ></div>
+      <div class="project-info">
+        <h3>VivaCoffe</h3>
+        <p>Modelo fictício de cafeteria com foco em apresentação de produtos e design clean.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção Sobre + Contato -->
+  <section class="section-about-contact container" id="section-about">
+    <div class="about-column">
+      <h2>Sobre Nós</h2>
+      <p>Somos Guilherme e Lucas, fundadores da Trium Tech — um projeto que nasceu da nossa paixão por tecnologia, design e soluções digitais que realmente fazem a diferença.</p> <br>
+      <p>Na Trium Tech, unimos criatividade e conhecimento técnico para desenvolver sites modernos, funcionais e sob medida para cada cliente. Acreditamos que uma presença digital de qualidade é essencial para qualquer negócio, e estamos aqui para transformar ideias em experiências online impactantes.</p><br>
+      <p>Nosso foco é entender as necessidades de cada cliente, oferecendo um atendimento próximo, soluções personalizadas e resultados profissionais — sempre com agilidade, cuidado e atenção aos detalhes.</p> <br>
+      <p>Seja para lançar um novo projeto, modernizar seu site atual ou criar uma vitrine digital que represente bem sua marca, conte com a gente!</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="contact-column" id="section-contact">
+  <h2 id="text_contact">PRONTO PARA COMEÇAR SEU PROJETO?</h2>
+
+  <a href="https://wa.me/5585981254006" target="_blank" class="btn-whatsapp">
+    <i class="fab fa-whatsapp"></i> Fale conosco no WhatsApp
+  </a>
+
+  <a href="https://www.instagram.com/trium_tech/" target="_blank" class="btn-insta">
+    <i class="fab fa-instagram"></i> Fale conosco no Instagram
+  </a>
+</div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer class="site-footer container">
+    <p>TriumTech - Criação de Sites Profissionais em WordPress</p>
+  </footer>
+
+  <script src="./js/script.js"></script>
+</body>
+
+</html>

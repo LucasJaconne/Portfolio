@@ -1,0 +1,298 @@
+/* RESET E CONFIGURAÇÕES GERAIS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #000;
+  color: #fff;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* HEADER */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-placeholder {
+  width: 150px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  
+}
+
+#imagem{
+  width: 150%;
+  padding-top: 20px;
+}
+
+/* BOTÕES VIDRO */
+.btn-glass {
+  background: #ffffff1a;
+  backdrop-filter: blur(10px);
+  border: 1px solid #01CDAE;
+  color: white;
+  padding: 12px 25px;
+  margin-left: 15px;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 1);
+  color: #000;
+  border: 1px solid #ffffff;
+}
+
+/* HERO */
+.section-hero {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  padding-bottom: 50px;
+}
+
+.section-hero h1 {
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+/* SCROLL INDICATOR */
+.scroll-down {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.scroll-down:hover {
+  opacity: 1;
+}
+
+.mouse {
+  width: 30px;
+  height: 50px;
+  border: 2px solid #01CDAE;
+  border-radius: 20px;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.wheel {
+  width: 4px;
+  height: 8px;
+  background: #fff;
+  border-radius: 4px;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scroll-wheel 1.5s infinite;
+}
+
+@keyframes scroll-wheel {
+  0% {
+    opacity: 0;
+    top: 10px;
+  }
+  50% {
+    opacity: 1;
+    top: 20px;
+  }
+  100% {
+    opacity: 0;
+    top: 10px;
+  }
+}
+
+/* PROJETOS */
+.section-projects {
+  padding: 80px 0;
+}
+
+.section-projects h2 {
+  font-size: 2.4rem;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 60px;
+  padding-bottom: 20px;
+}
+
+.project {
+  display: flex;
+  align-items: center;
+  margin-bottom: 80px;
+}
+
+.project:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.project-image {
+  flex: 1;
+  height: 300px;
+  max-width: 520px;
+  background-color: #333;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.project-image:hover{
+  transform: translateY(-3px);
+  filter: brightness(0.9); 
+}
+
+.project-info {
+  flex: 1;
+  padding: 0 40px;
+}
+
+.project-info h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.project-info p {
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+.project-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid #01CDAE;
+  padding-bottom: 5px;
+  transition: transform 0.2s ease, color 0.2s ease;
+  display: inline-block;
+}
+
+.project-link:hover {
+  transform: translateY(-2px); /* sobe um pouquinho */
+  color: #ffffff; /* opcional: muda a cor no hover */
+}
+
+
+
+
+/* SOBRE NÓS E CONTATO LADO A LADO */
+.section-about-contact {
+  display: flex;
+  height: 80vh;
+}
+
+.about-column,
+.contact-column {
+  flex: 1;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.about-column {
+  text-align: left;
+}
+
+.about-column h2 {
+  text-align: center;
+  padding-bottom: 20px;
+  font-size: 2.5em;
+}
+
+.about-column p {
+  text-align: justify;
+}
+.contact-column {
+  text-align: center; /* Centraliza tudo por padrão, melhor para mobile também */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#text_contact {
+  padding-bottom: 30px;
+  font-size: 1.5rem;
+}
+
+.divider {
+  width: 1px;
+  background-color: rgba(255, 255, 255, 0.2);
+  margin-bottom: 50px;
+}
+
+/* BOTÃO WHATSAPP */
+.btn-whatsapp,
+.btn-insta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 20px;
+  width: 70%;
+  max-width: 300px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+  text-align: center;
+  color: white;
+}
+
+.btn-whatsapp {
+  background: #25D366;
+}
+
+.btn-insta {
+  background: linear-gradient(45deg, #feda75, #d62976, #962fbf, #4f5bd5);
+}
+
+.btn-whatsapp i,
+.btn-insta i {
+  margin-right: 8px;
+}
+
+.btn-whatsapp:hover,
+.btn-insta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* FOOTER */
+.site-footer {
+  text-align: center;
+  padding: 30px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #555;
+  font-size: 0.9rem;
+}
