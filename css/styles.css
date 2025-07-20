@@ -293,18 +293,15 @@ nav {
   font-size: 0.9rem;
 }
 
-/* RESPONSIVIDADE */
-@media (max-width: 768px) {
-  
-  #imagem{
-margin-left: 95px;
-  }
+/* Estilos globais aqui / Responsividade*/
 
+/* ----- Media query para até 768px ----- */
+@media (max-width: 768px) {
   nav {
-    
     gap: 8px;
     padding-top: 40px;
-    margin-left: 15px;
+    width: 60%;
+    margin-top: 0px;
   }
 
   .section-hero {
@@ -312,7 +309,7 @@ margin-left: 95px;
   }
 
   .project {
-    flex-direction: column !important;
+    flex-direction: column;
     text-align: center;
     padding: 0px 10px;
   }
@@ -325,7 +322,8 @@ margin-left: 95px;
     flex-direction: column;
   }
 
-  .about-column, .contact-column {
+  .about-column,
+  .contact-column {
     padding: 30px 20px;
   }
 
@@ -339,5 +337,35 @@ margin-left: 95px;
 
   #text_contact {
     font-size: 1.3rem;
+  }
+
+  #imagem {
+    margin-left: 0; /* valor padrão até 768px */
+  }
+}
+
+/* ----- Media query para até 580px ----- */
+@media (max-width: 580px) {
+  nav {
+    margin-left: 15px;
+    margin-top: 30px;
+    width: 100%; /* sobrescreve os 60% */
+  }
+
+  .section-hero h1 {
+    font-size: 1.6rem; /* menor ainda que 768px */
+  }
+
+  #text_contact {
+    font-size: 1.1rem;
+  }
+
+  #imagem {
+    margin-left: 95px; /* ajusta a imagem só no 580px */
+  }
+
+  .about-column,
+  .contact-column {
+    padding: 20px 15px;
   }
 }
