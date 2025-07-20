@@ -1,7 +1,9 @@
 // Scroll para seção de projetos ao clicar no ícone
 function scrollToProjects() {
   const projectsSection = document.getElementById("section-projects");
-  projectsSection.scrollIntoView({ behavior: "smooth" });
+  if (projectsSection) {
+    projectsSection.scrollIntoView({ behavior: "smooth" });
+  }
 }
 
 // Scroll automático ao dar scroll para baixo estando no topo

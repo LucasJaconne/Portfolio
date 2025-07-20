@@ -23,8 +23,10 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   padding: 30px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
 }
 
 .logo-placeholder {
@@ -32,12 +34,18 @@ body {
   height: 50px;
   display: flex;
   align-items: center;
-  
 }
 
-#imagem{
+#imagem {
   width: 150%;
   padding-top: 20px;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
 }
 
 /* BOTÕES VIDRO */
@@ -47,7 +55,7 @@ body {
   border: 1px solid #01CDAE;
   color: white;
   padding: 12px 25px;
-  margin-left: 15px;
+  margin: 5px;
   text-decoration: none;
   border-radius: 50px;
   font-weight: 500;
@@ -119,18 +127,9 @@ body {
 }
 
 @keyframes scroll-wheel {
-  0% {
-    opacity: 0;
-    top: 10px;
-  }
-  50% {
-    opacity: 1;
-    top: 20px;
-  }
-  100% {
-    opacity: 0;
-    top: 10px;
-  }
+  0% { opacity: 0; top: 10px; }
+  50% { opacity: 1; top: 20px; }
+  100% { opacity: 0; top: 10px; }
 }
 
 /* PROJETOS */
@@ -150,6 +149,7 @@ body {
   display: flex;
   align-items: center;
   margin-bottom: 80px;
+  flex-wrap: wrap;
 }
 
 .project:nth-child(even) {
@@ -158,7 +158,7 @@ body {
 
 .project-image {
   flex: 1;
-  height: 300px;
+  height: auto;
   max-width: 520px;
   background-color: #333;
   border-radius: 10px;
@@ -166,14 +166,19 @@ body {
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.project-image:hover{
+.project-image img {
+  width: 100%;
+  display: block;
+}
+
+.project-image:hover {
   transform: translateY(-3px);
-  filter: brightness(0.9); 
+  filter: brightness(0.9);
 }
 
 .project-info {
   flex: 1;
-  padding: 0 40px;
+  padding: 20px 40px;
 }
 
 .project-info h3 {
@@ -198,21 +203,19 @@ body {
 }
 
 .project-link:hover {
-  transform: translateY(-2px); /* sobe um pouquinho */
-  color: #ffffff; /* opcional: muda a cor no hover */
+  transform: translateY(-2px);
+  color: #ffffff;
 }
 
-
-
-
-/* SOBRE NÓS E CONTATO LADO A LADO */
+/* SOBRE NÓS E CONTATO */
 .section-about-contact {
   display: flex;
-  height: 80vh;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-bottom: 60px;
 }
 
-.about-column,
-.contact-column {
+.about-column, .contact-column {
   flex: 1;
   padding: 60px;
   display: flex;
@@ -220,23 +223,19 @@ body {
   justify-content: center;
 }
 
-.about-column {
-  text-align: left;
-}
-
 .about-column h2 {
   text-align: center;
-  padding-bottom: 20px;
   font-size: 2.5em;
+  margin-bottom: 20px;
 }
 
 .about-column p {
   text-align: justify;
+  margin-bottom: 10px;
 }
+
 .contact-column {
-  text-align: center; /* Centraliza tudo por padrão, melhor para mobile também */
-  display: flex;
-  flex-direction: column;
+  text-align: center;
   align-items: center;
 }
 
@@ -251,9 +250,8 @@ body {
   margin-bottom: 50px;
 }
 
-/* BOTÃO WHATSAPP */
-.btn-whatsapp,
-.btn-insta {
+/* BOTÕES DE CONTATO */
+.btn-whatsapp, .btn-insta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -265,8 +263,8 @@ body {
   font-weight: 500;
   margin-top: 20px;
   transition: all 0.3s ease;
-  text-align: center;
   color: white;
+  text-align: center;
 }
 
 .btn-whatsapp {
@@ -277,13 +275,11 @@ body {
   background: linear-gradient(45deg, #feda75, #d62976, #962fbf, #4f5bd5);
 }
 
-.btn-whatsapp i,
-.btn-insta i {
+.btn-whatsapp i, .btn-insta i {
   margin-right: 8px;
 }
 
-.btn-whatsapp:hover,
-.btn-insta:hover {
+.btn-whatsapp:hover, .btn-insta:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
@@ -295,4 +291,53 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: #555;
   font-size: 0.9rem;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  
+  #imagem{
+margin-left: 95px;
+  }
+
+  nav {
+    
+    gap: 8px;
+    padding-top: 40px;
+    margin-left: 15px;
+  }
+
+  .section-hero {
+    height: 60vh;
+  }
+
+  .project {
+    flex-direction: column !important;
+    text-align: center;
+    padding: 0px 10px;
+  }
+
+  .project-info {
+    padding: 20px 0;
+  }
+
+  .section-about-contact {
+    flex-direction: column;
+  }
+
+  .about-column, .contact-column {
+    padding: 30px 20px;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .section-hero h1 {
+    font-size: 2rem;
+  }
+
+  #text_contact {
+    font-size: 1.3rem;
+  }
 }
