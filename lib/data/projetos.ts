@@ -2,7 +2,14 @@ export interface Projeto {
   slug: string;
   titulo: string;
   ano: number;
-  categoria: 'Landing Page' | 'E-commerce' | 'App' | 'Dashboard' | 'Portfólio' | 'Outro';
+  categoria:
+    | 'Landing Page'
+    | 'Site Institucional'
+    | 'E-commerce'
+    | 'App'
+    | 'Dashboard'
+    | 'Portfólio'
+    | 'Outro';
   cliente: string;
   tecnologias: string[];
   imagemPrincipal: string;
@@ -22,7 +29,73 @@ export interface Projeto {
   imagemCard?: string;        // imagem exibida no carrossel da home
 }
 
+/**
+ * `descricaoCurta` é a única vitrine do projeto: aparece inteira no carrossel
+ * da home, sem "ler mais" e sem página de detalhe. Mantenha até ~130
+ * caracteres — acima disso passa de 4 linhas na coluna do carrossel e o
+ * bloco de texto empurra a paginação.
+ */
 export const projetos: Projeto[] = [
+  {
+    slug: 'aline-lima',
+    titulo: 'Dra. Aline Lima',
+    ano: 2026,
+    categoria: 'Site Institucional',
+    cliente: 'Dra. Aline Lima — Estética Orofacial',
+    tecnologias: [],
+    imagemPrincipal: '/images/projetos/aline/aline.webp',
+    galeria: ['/images/projetos/aline/aline.webp'],
+    descricaoCurta:
+      'Site da especialista em estética orofacial Aline Lima — tratamentos, cursos e agendamento de consultas.',
+    descricaoCompleta:
+      'O site da Dra. Aline Lima reúne as duas frentes do trabalho dela: o atendimento clínico em estética orofacial — harmonização facial, toxina botulínica e bioestimuladores — e a formação de outros profissionais, com cursos e formações. Também organiza o home care, o programa de paciente modelo e o agendamento de consultas, com uma identidade serifada e clara que traduz o cuidado clínico da marca.',
+    contexto:
+      'Especialista em estética orofacial certificada pelo CFO e com mais de dez anos de atuação, Aline divide o tempo entre atender pacientes e formar profissionais. As duas frentes disputavam o mesmo espaço nas redes sociais, sem um endereço próprio que organizasse a informação e sustentasse a autoridade da marca.',
+    desafios:
+      'Acomodar dois públicos distintos — pacientes em busca de tratamento e profissionais em busca de formação — sem que um atrapalhasse a leitura do outro, mantendo a sobriedade que a área da saúde exige e evitando qualquer promessa de resultado.',
+    solucao:
+      'Estrutura com caminhos separados para pacientes e alunos, identidade serifada em tons claros e dourados, apresentação individual de cada tratamento, áreas dedicadas a cursos, formações, home care e paciente modelo, e agendamento de consulta acessível de qualquer seção.',
+    resultados:
+      'Endereço próprio que sustenta a marca pessoal, apresenta tratamentos e formações lado a lado e centraliza o agendamento fora das redes sociais.',
+    urlExterna: 'https://www.dralinelima.com.br/',
+    destaque: true,
+    grafismo: '✦',
+    logoLetra: 'A',
+    corCapa: 'linear-gradient(135deg, #C0A882 0%, #6B5B3F 50%, #14100a 100%)',
+    accent: '#C0A882',
+    imagemCard: '/images/projetos/aline/aline.webp',
+  },
+
+  {
+    slug: 'alonso',
+    titulo: 'Alonso',
+    ano: 2026,
+    categoria: 'Landing Page',
+    cliente: 'Alonso Estética Automotiva',
+    tecnologias: [],
+    imagemPrincipal: '/images/projetos/alonso/alonso.webp',
+    galeria: ['/images/projetos/alonso/alonso.webp'],
+    descricaoCurta:
+      'Site de estética automotiva especializada em PPF, com catálogo de cortes por modelo e agendamento pelo WhatsApp.',
+    descricaoCompleta:
+      'O site da Alonso Estética Automotiva apresenta o trabalho de proteção de pintura em PPF. A peça central é o catálogo digital de cortes: o cliente encontra o diagrama exato para o modelo do próprio carro, já que as películas são cortadas eletronicamente na medida, sem uso de lâminas. Uma segunda área reúne as linhas de PPF disponíveis, e o agendamento acontece direto pelo WhatsApp, a partir de qualquer ponto da página.',
+    contexto:
+      'A Alonso trabalha com películas de proteção cortadas eletronicamente — um serviço técnico que uma foto não explica sozinha. Faltava um lugar onde o cliente entendesse o que é PPF, confirmasse se o próprio carro está coberto e saísse com o serviço agendado.',
+    desafios:
+      'Traduzir um serviço técnico, organizado por modelo de veículo, em uma navegação que qualquer motorista percorra sem esforço — e sustentar uma identidade escura de alto contraste sem prejudicar a leitura nem o carregamento das imagens dos carros.',
+    solucao:
+      'Identidade escura com laranja de destaque, catálogo de cortes organizado por modelo, seção dedicada às linhas de PPF e um caminho curto até o WhatsApp em toda a página.',
+    resultados:
+      'Presença digital que explica o serviço antes do primeiro contato: o cliente chega ao WhatsApp já sabendo qual proteção quer, o que encurta a conversa e qualifica o agendamento.',
+    urlExterna: 'https://www.alonsoesteticaautomotiva.com.br/',
+    destaque: true,
+    grafismo: '〜',
+    logoLetra: 'A',
+    corCapa: 'linear-gradient(135deg, #F97316 0%, #7C2D12 50%, #140a04 100%)',
+    accent: '#F97316',
+    imagemCard: '/images/projetos/alonso/alonso.webp',
+  },
+
   {
     slug: 'flavio-lavigne',
     titulo: 'Flavio Lavigne',
@@ -33,7 +106,7 @@ export const projetos: Projeto[] = [
     imagemPrincipal: '/images/bunners/flaviolavigne.png',
     galeria: ['/images/bunners/flaviolavigne.png'],
     descricaoCurta:
-      'Site-portfólio do maquiador Flavio Lavigne, de Volta Redonda — apresenta seus trabalhos, serviços e cursos com a mesma elegância das suas maquiagens, além de um blog com conteúdo sobre beleza.',
+      'Portfólio, serviços e cursos do maquiador Flavio Lavigne — com blog próprio e a mesma elegância do trabalho dele.',
     descricaoCompleta:
       'O site do Flavio Lavigne é o cartão de visitas digital de um dos maquiadores mais requisitados de Volta Redonda. Desenvolvido com Next.js e Supabase, reúne o portfólio de trabalhos — noivas, editorial e social —, a apresentação de serviços e cursos e um blog gerenciável com conteúdo sobre beleza. O design escuro com tons dourados traduz a sofisticação da marca pessoal do artista.',
     contexto:
@@ -69,7 +142,7 @@ export const projetos: Projeto[] = [
       '/images/projetos/axis/banner2.webp',
     ],
     descricaoCurta:
-      'Plataforma para divulgação de eventos, pré-vendas e artistas agenciados pela AXIS — construída com design imersivo e tecnologia de alta performance para conectar público e produtores em uma experiência única.',
+      'Plataforma de eventos, pré-vendas e artistas da AXIS — design imersivo conectando público e produtores.',
     descricaoCompleta:
       'A AXIS é uma plataforma completa para o ecossistema de eventos da agência, unindo tecnologia de ponta e design premium. Desenvolvida com Next.js e Supabase, centraliza a divulgação de eventos, o gerenciamento de pré-vendas por lotes e o portfólio de artistas agenciados. Oferece uma interface fluida com animações imersivas e um dashboard intuitivo para produtores, elevando o padrão das experiências de entretenimento regional.',
     contexto:
@@ -147,7 +220,7 @@ export const projetos: Projeto[] = [
       '/images/projetos/gabrielpassig/mobile4.webp',
     ],
     descricaoCurta:
-      'Site profissional para escritório de advocacia, com foco em Direito Previdenciário, totalmente responsivo e gerenciado pelo painel do WordPress.',
+      'Site institucional para advocacia previdenciária, responsivo e gerenciável pelo próprio escritório no WordPress.',
     descricaoCompleta:
       'Site profissional para escritório de advocacia, com foco em Direito Previdenciário, totalmente responsivo, institucional e gerenciado pelo painel do WordPress. Conta com páginas informativas, áreas de atendimento e conteúdo atualizado para auxiliar clientes em dúvidas sobre benefícios e serviços previdenciários.',
     contexto:

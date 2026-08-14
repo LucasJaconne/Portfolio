@@ -8,14 +8,19 @@ A TRIUM é um estúdio de criação de sites com sede em Volta Redonda, no Sul F
 
 - [Criação de sites profissionais](https://www.triumworks.com.br/#projetos): sites institucionais modernos, rápidos e otimizados para SEO, pensados para empresas que querem presença digital sólida.
 - [Landing pages de alta conversão](https://www.triumworks.com.br/#projetos): páginas focadas em gerar leads e converter, com copy estratégica e performance impecável.
-- [E-commerce e marketplaces](https://www.triumworks.com.br/projetos/veiculos-rj): lojas virtuais e marketplaces multi-vendedor, com gestão de estoque, integrações e geração de leads via WhatsApp.
+- [E-commerce e marketplaces](https://www.triumworks.com.br/#projetos): lojas virtuais e marketplaces multi-vendedor, com gestão de estoque, integrações e geração de leads via WhatsApp.
 - [Sites com Inteligência Artificial e automações](https://www.triumworks.com.br/#projetos): integração de IA em sites — chatbots de atendimento, automação de leads, geração de conteúdo, busca semântica e fluxos inteligentes.
 
 ## Projetos em destaque
 
-- [AXIS Eventos](https://www.triumworks.com.br/projetos/axis): plataforma completa de gestão e venda de ingressos de eventos, com Next.js, Supabase e Framer Motion.
-- [Veículos RJ](https://www.triumworks.com.br/projetos/veiculos-rj): marketplace automotivo multiloja com geração de leads via WhatsApp e integração AutoCerto.
-- [Gabriel Passig Advocacia](https://www.triumworks.com.br/projetos/gabriel-passig): site institucional para escritório de Direito Previdenciário, em WordPress responsivo com SEO otimizado.
+Os projetos são apresentados no carrossel da página inicial, em
+https://www.triumworks.com.br/#projetos — os links abaixo levam aos sites
+publicados de cada cliente.
+
+- [Flavio Lavigne](https://www.flaviolavigne.com/): site-portfólio de maquiador, com serviços, cursos e blog próprio, em Next.js e Supabase.
+- [AXIS Eventos](https://axis-eventos.vercel.app/): plataforma de divulgação de eventos, pré-vendas e artistas agenciados, com Next.js, Supabase e Framer Motion.
+- [Veículos RJ](https://www.veiculosrj.com/): marketplace automotivo multiloja com geração de leads via WhatsApp e integração AutoCerto.
+- [Gabriel Passig Advocacia](https://gabrielpassig.com.br/): site institucional para escritório de Direito Previdenciário, em WordPress responsivo com SEO otimizado.
 
 ## Região de atuação
 

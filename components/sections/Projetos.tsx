@@ -89,6 +89,9 @@ export function Projetos() {
     else if (info.offset.x > 60) prev();
   };
 
+  // Onde o ponteiro desceu, para separar clique de arrasto no deck.
+  const xAoPressionar = useRef(0);
+
   // ── Tilt 3D do deck (desktop, pointer fino) ──
   const tiltX = useMotionValue(0);
   const tiltY = useMotionValue(0);
@@ -114,15 +117,18 @@ export function Projetos() {
     tiltY.set(0);
   };
 
-  // Geometria do leque: mais aberto no desktop, discreto no mobile.
-  const xStep = isMobile ? 22 : 64;
+  // Geometria do leque: mais aberto no desktop, discreto no mobile. O passo
+  // horizontal é fechado o bastante para o card da frente crescer sem que as
+  // cartas de trás avancem demais sobre a borda direita da tela.
+  const xStep = isMobile ? 22 : 42;
   const yStep = isMobile ? 8 : 12;
   const scaleStep = isMobile ? 0.045 : 0.06;
-  const rotStep = isMobile ? 1.2 : 1.8;
-  // No mobile só os 3 cards da frente ficam montados: os de trás ficam ocultos
-  // atrás mesmo, então não vale a pena compô-los/decodificá-los (8 imagens
-  // full-bleed empilhadas é o que trava o aparelho).
-  const visibleDepth = isMobile ? 3 : total;
+  const rotStep = isMobile ? 1.2 : 1.5;
+  // Só os cards da frente ficam montados: o véu escuro cresce 0.22 por
+  // camada, então da quinta em diante a carta já está sob preto opaco e
+  // decodificar a imagem seria trabalho jogado fora. No mobile o corte é
+  // mais agressivo — empilhar imagens full-bleed é o que trava o aparelho.
+  const visibleDepth = isMobile ? 3 : 4;
 
   return (
     <section
@@ -136,15 +142,11 @@ export function Projetos() {
         ['--ac' as string]: projeto.accent,
       }}
     >
-      {/* Número-fantasma editorial — desktop: canto inferior esquerdo, inteiro */}
-      <GhostNumber
-        index={index}
-        accent={projeto.accent}
-        className="absolute left-8 z-[1] hidden md:block"
-        style={{ fontSize: 'clamp(130px, 14vw, 210px)', bottom: 'clamp(20px, 5vh, 56px)' }}
-      />
-
-      <div className="relative z-10 grid w-full grid-cols-1 items-center gap-6 md:grid-cols-[38%_62%] md:gap-6">
+      {/* gap-0 no desktop: as colunas já somam 100%, e um gap somado a isso
+          empurrava a coluna da direita para fora da viewport.
+          items-start no desktop: o topo do texto encosta na mesma horizontal
+          do topo do card — o bloco deixa de flutuar no meio do vão. */}
+      <div className="relative z-10 grid w-full grid-cols-1 items-center gap-6 md:grid-cols-[32%_68%] md:items-start md:gap-0">
         {/* ── Texto (esquerda) — colado no card, na altura dele ── */}
         <div className="order-2 grid px-6 md:order-1 md:pl-16">
           {/* mobile: crossfade simultâneo (mode="sync") sem esperar o exit.
@@ -160,7 +162,10 @@ export function Projetos() {
               exit={{ opacity: 0 }}
               transition={{ duration: isMobile ? 0.2 : 0.3 }}
               style={{ gridArea: '1 / 1' }}
-              className="flex flex-col gap-5 md:ml-auto md:mr-6 md:h-[50vh] md:max-w-sm md:justify-between md:gap-0"
+              // min-h (não h) fixa o piso da altura sem cortar: com a ficha
+              // técnica somada, em telas baixas o conteúdo passa de 50vh e
+              // precisa poder crescer em vez de transbordar a caixa.
+              className="flex flex-col gap-5 md:ml-auto md:mr-6 md:min-h-[50vh] md:max-w-sm md:justify-between md:gap-0"
             >
               <Reveal reduced={reduced} mobile={isMobile}>
                 <div className="flex items-center gap-2.5 font-mono text-tiny uppercase tracking-[0.3em] text-[#E8E3D7]/60">
@@ -187,61 +192,105 @@ export function Projetos() {
                     {projeto.titulo}
                   </h2>
                 </Reveal>
+                {/* O cliente só aparece quando acrescenta algo ao título —
+                    em "Veículos RJ" os dois são idênticos. */}
+                {projeto.cliente !== projeto.titulo && (
+                  <Reveal reduced={reduced} mobile={isMobile} delay={isMobile ? 0 : 0.09}>
+                    <p className="mt-2.5 font-lora text-[13px] italic text-[#E8E3D7]/45">
+                      {projeto.cliente}
+                    </p>
+                  </Reveal>
+                )}
+
                 <Reveal reduced={reduced} mobile={isMobile} delay={isMobile ? 0 : 0.12}>
-                  {/* min-h reserva sempre 3 linhas no mobile: descrições mais
-                      curtas mantêm a mesma altura, então o bloco de texto não
-                      muda de tamanho entre projetos (o que fazia o deck pular). */}
-                  <p className="mt-3 line-clamp-3 min-h-[4.6rem] font-lora text-[15px] leading-relaxed text-[#E8E3D7]/70 md:mt-5 md:line-clamp-none md:min-h-0 md:text-body-lg">
+                  {/* Sem clamp: esta é a única vitrine do projeto, então a
+                      descrição precisa aparecer inteira. O min-h reserva a
+                      altura da maior delas, para que trocar de projeto não
+                      mude o tamanho do bloco (o que fazia o deck pular).
+                      As descrições em projetos.ts são mantidas curtas o
+                      bastante para caber — ver comentário lá. */}
+                  <p className="mt-3 min-h-[4.6rem] font-lora text-[15px] leading-relaxed text-[#E8E3D7]/70 md:mt-4 md:min-h-[8.5rem] md:text-body-lg">
                     {projeto.descricaoCurta}
                   </p>
                 </Reveal>
+
+                {/* Ficha técnica — texto puro, sem caixas: a informação
+                    aparece sem somar mais uma borda ao layout. Projeto sem
+                    stack declarada não deixa a linha vazia ocupando espaço. */}
+                {projeto.tecnologias.length > 0 && (
+                  <Reveal reduced={reduced} mobile={isMobile} delay={isMobile ? 0 : 0.15}>
+                    <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#E8E3D7]/40">
+                      {projeto.tecnologias.join(' · ')}
+                    </p>
+                  </Reveal>
+                )}
               </div>
 
-              <Reveal reduced={reduced} mobile={isMobile} delay={isMobile ? 0 : 0.18}>
-                <a
-                  href={projeto.urlExterna}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-cursor="hover"
-                  className="group inline-flex w-fit items-center gap-2 border-b border-[#E8E3D7]/30 pb-1 font-mono text-tiny uppercase tracking-[0.2em] text-[#E8E3D7] transition-colors hover:border-[var(--ac)]"
-                >
-                  Ver projeto
-                  <span
-                    className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-1"
-                    style={{ color: projeto.accent }}
+              {/* Sem URL declarada não há link: um href vazio recarregaria a
+                  página em cima do visitante. */}
+              {projeto.urlExterna && (
+                <Reveal reduced={reduced} mobile={isMobile} delay={isMobile ? 0 : 0.18}>
+                  <a
+                    href={projeto.urlExterna}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-cursor="hover"
+                    data-cursor-label="Abrir site"
+                    className="group inline-flex w-fit items-center gap-2 border-b border-[#E8E3D7]/30 pb-1 font-mono text-tiny uppercase tracking-[0.2em] text-[#E8E3D7] transition-colors hover:border-[var(--ac)]"
                   >
-                    ↗
-                  </span>
-                </a>
-              </Reveal>
+                    Ver projeto
+                    <span
+                      className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-1"
+                      style={{ color: projeto.accent }}
+                    >
+                      ↗
+                    </span>
+                  </a>
+                </Reveal>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
 
         {/* ── Deck de cards (direita) ── */}
-        <div className="relative order-1 md:order-2">
-          {/* Número-fantasma — mobile: espiando atrás do canto do card */}
-          <GhostNumber
-            index={index}
-            accent={projeto.accent}
-            className="absolute -top-9 right-4 z-0 md:hidden"
-            style={{ fontSize: '88px' }}
-          />
-
+        {/* padding assimétrico: a folga maior à direita é o espaço em que as
+            cartas de trás abrem em leque. */}
+        <div className="relative order-1 md:order-2 md:pl-2 md:pr-8">
           <motion.div
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.16}
             onDragEnd={handleDragEnd}
-            style={{ touchAction: 'pan-y' }}
-            className="relative z-10 ml-5 mr-9 cursor-grab active:cursor-grabbing md:ml-0 md:mr-24 md:max-w-[820px]"
+            style={{
+              touchAction: 'pan-y',
+              // O card é 16:9, então largura vira altura. Em telas baixas o
+              // teto de 980px deixaria o deck alto demais e a paginação
+              // colidiria com o botão "Contato" — daí o limite pela altura
+              // sobrando (a subtração cobre paginação, botão e respiro).
+              maxWidth: 'min(980px, calc((100svh - 232px) * 16 / 9))',
+            }}
+            className="relative z-10 ml-5 mr-9 cursor-grab active:cursor-grabbing md:mx-auto"
           >
             {/* Palco em perspectiva — o deck inteiro inclina seguindo o cursor;
                 as cartas de trás abrem em leque para a direita. */}
+            {/* O deck inteiro vira controle: metade esquerda volta, metade
+                direita avança — e o cursor mostra ←/→ para anunciar isso.
+                O ponteiro é comparado com onde o botão desceu, senão o
+                clique que encerra um arrasto também navegaria. */}
             <div
               style={{ perspective: 1400 }}
+              data-cursor="drag"
               onPointerMove={onTiltMove}
               onPointerLeave={onTiltLeave}
+              onPointerDown={(e) => {
+                xAoPressionar.current = e.clientX;
+              }}
+              onClick={(e) => {
+                if (Math.abs(e.clientX - xAoPressionar.current) > 8) return;
+                const r = e.currentTarget.getBoundingClientRect();
+                if (e.clientX < r.left + r.width / 2) prev();
+                else next();
+              }}
             >
               <motion.div
                 className="relative aspect-video w-full"
@@ -266,12 +315,10 @@ export function Projetos() {
                   return (
                     <div
                       key={p.slug}
-                      onClick={() => !isActive && goTo(i)}
-                      data-cursor="hover"
-                      className={cn(
-                        'absolute inset-0 overflow-hidden rounded-2xl border border-[#E8E3D7]/10 md:rounded-[2rem]',
-                        !isActive && 'cursor-pointer'
-                      )}
+                      // Sem data-cursor aqui: o closest() do cursor pegaria o
+                      // card antes do deck e trocaria a seta pelo círculo.
+                      // A navegação agora é do deck inteiro, por metade.
+                      className="absolute inset-0 overflow-hidden border border-[#E8E3D7]/10"
                       style={{
                         background: '#0b0e13',
                         zIndex: total - depth,
@@ -330,7 +377,11 @@ export function Projetos() {
             <div className="mt-5 flex items-center gap-3">
               <PagButton dir="prev" onClick={prev} />
 
-              <div className="flex max-w-[160px] flex-1 items-center gap-1.5">
+              {/* Barras de progresso entre as setas. Valem até xl porque o
+                  índice por nome só cabe inteiro a partir de 1280px — com a
+                  lista atual de projetos, abaixo disso os últimos nomes
+                  saíam pela borda da tela. */}
+              <div className="flex max-w-[160px] flex-1 items-center gap-1.5 xl:hidden">
                 {projetos.map((p, i) => (
                   <button
                     key={p.slug}
@@ -358,12 +409,37 @@ export function Projetos() {
 
               <PagButton dir="next" onClick={next} />
 
-              <span className="ml-1 font-mono text-[10px] tracking-[0.2em] text-[#E8E3D7]/55">
-                <span style={{ color: projeto.accent }}>
-                  {String(index + 1).padStart(2, '0')}
-                </span>{' '}
-                / {String(total).padStart(2, '0')}
-              </span>
+              {/* Telas largas: índice por nome — navega e diz onde se está,
+                  no lugar do contador numérico. */}
+              <div className="ml-7 hidden items-center gap-7 xl:flex">
+                {projetos.map((p, i) => {
+                  const ativo = i === index;
+                  return (
+                    <button
+                      key={p.slug}
+                      onClick={() => goTo(i)}
+                      data-cursor="hover"
+                      aria-label={`Ir para ${p.titulo}`}
+                      aria-current={ativo ? 'true' : undefined}
+                      className="group relative whitespace-nowrap pb-1.5 font-mono text-[10px] uppercase tracking-[0.18em] transition-colors duration-300"
+                      style={{ color: ativo ? INK : 'rgba(232,227,215,0.35)' }}
+                    >
+                      {p.titulo}
+                      <span
+                        aria-hidden="true"
+                        className="absolute inset-x-0 bottom-0 h-px origin-left"
+                        style={{
+                          backgroundColor: projeto.accent,
+                          transform: ativo ? 'scaleX(1)' : 'scaleX(0)',
+                          transition: reduced
+                            ? 'none'
+                            : 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                        }}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </motion.div>
         </div>
@@ -426,45 +502,6 @@ function Reveal({
   );
 }
 
-/** Índice gigante em contorno, na cor da marca do projeto em foco. */
-function GhostNumber({
-  index,
-  accent,
-  className,
-  style,
-}: {
-  index: number;
-  accent: string;
-  className?: string;
-  style?: React.CSSProperties;
-}) {
-  return (
-    <div
-      aria-hidden
-      className={cn('pointer-events-none select-none', className)}
-      style={style}
-    >
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={index}
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -28, transition: { duration: 0.25, ease: EASE } }}
-          transition={{ duration: 0.6, ease: EASE }}
-          className="block font-display font-bold tracking-[-0.04em]"
-          style={{
-            lineHeight: 0.78,
-            color: 'transparent',
-            WebkitTextStroke: `1.5px ${withAlpha(accent, 0.4)}`,
-          }}
-        >
-          {String(index + 1).padStart(2, '0')}
-        </motion.span>
-      </AnimatePresence>
-    </div>
-  );
-}
-
 function PagButton({
   dir,
   onClick,
@@ -476,6 +513,7 @@ function PagButton({
     <button
       onClick={onClick}
       data-cursor="hover"
+      data-cursor-magnetic=""
       aria-label={dir === 'prev' ? 'Projeto anterior' : 'Próximo projeto'}
       className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#E8E3D7]/30 text-xs text-[#E8E3D7] transition-all duration-300 hover:border-[var(--ac)] hover:bg-[var(--ac)] hover:text-carbon"
     >

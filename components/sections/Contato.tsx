@@ -13,54 +13,20 @@ const WHATSAPP_URL =
     'Olá! Vi seu portfólio e gostaria de conversar sobre a criação de um site para o meu negócio.'
   );
 const INSTAGRAM_URL = 'https://www.instagram.com/triumworks/';
+const EMAIL_URL = 'mailto:contato@triumtech.com.br';
 
-function WhatsAppIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M3 21 L4.5 16.2 A8.5 8.5 0 1 1 8 19.2 Z" />
-      <path d="M8.5 9.5 Q9 11.5 10.5 13 Q12 14.5 14.5 15 L15.5 13.7 L17 14.5 Q16.5 16 15 16.2 Q12 16.5 9 13.5 Q6 10.5 6.3 7.5 Q6.5 6 8 5.5 L8.8 7 Z" />
-    </svg>
-  );
-}
+const EASE = [0.16, 1, 0.3, 1] as const;
 
-function InstagramIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <rect x="3" y="3" width="18" height="18" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" />
-    </svg>
-  );
-}
-
-function ContactButton({
+/**
+ * Botão de ação — label em mono, caixa reta. O preenchimento teal cresce
+ * da esquerda no hover e o texto inverte para carbon.
+ */
+function ActionPill({
   href,
-  icon,
   label,
   aria,
 }: {
   href: string;
-  icon: React.ReactNode;
   label: string;
   aria: string;
 }) {
@@ -71,19 +37,49 @@ function ContactButton({
       rel="noopener noreferrer"
       aria-label={aria}
       data-cursor="hover"
-      className="group relative inline-flex items-center justify-center gap-3 overflow-hidden border border-white/30 px-8 py-5 font-mono uppercase tracking-[0.18em] text-small text-white transition-[transform,border-color,box-shadow] duration-[600ms] ease-artisan hover:scale-[1.03] hover:border-teal hover:shadow-[0_10px_36px_-8px_rgba(9,194,167,0.45)]"
+      data-cursor-magnetic=""
+      className="group relative inline-flex items-center overflow-hidden border border-[#E8E3D7]/30 px-7 py-4 font-mono text-[11px] uppercase tracking-[0.16em] text-[#E8E3D7] transition-colors duration-500 ease-artisan hover:border-teal sm:px-9"
     >
       <span
         aria-hidden="true"
-        className="absolute inset-0 -z-10 origin-left scale-x-0 bg-teal transition-transform duration-[600ms] ease-artisan group-hover:scale-x-100"
+        className="absolute inset-0 -z-10 origin-left scale-x-0 bg-teal transition-transform duration-500 ease-artisan group-hover:scale-x-100"
       />
-      <span className="inline-flex transition-transform duration-[600ms] ease-artisan group-hover:scale-110 group-hover:text-carbon">
-        {icon}
-      </span>
-      <span className="transition-colors duration-[600ms] group-hover:text-carbon">
+      <span className="transition-colors duration-500 group-hover:text-carbon">
         {label}
       </span>
     </a>
+  );
+}
+
+/**
+ * Monumento da marca — cream chapado. O efeito de mouse é o mesmo do TRIUM
+ * do topo da página: quem reage é o cursor customizado, que vira um disco e
+ * inverte as cores do que está embaixo (`data-cursor="hover"`).
+ */
+function Monumento() {
+  return (
+    <span
+      data-cursor="hover"
+      // O vw dá a escala; o teto em vh impede que o monumento estoure a
+      // altura da seção em telas baixas. No mobile o corpo é menor — em
+      // tela estreita o nome ocupava a largura inteira e sufocava o resto.
+      // A margem negativa desconta o sidebearing do "T" e encosta o glifo na
+      // borda — só no mobile: no desktop o corpo é tão maior que o mesmo
+      // valor em em viraria dezenas de pixels e comeria a haste da letra.
+      // A margem inferior regula o corte. O pai tem overflow-hidden e termina
+      // na linha do rodapé, então margem negativa faz a base das letras
+      // transbordar e ser ceifada ali — no desktop é isso que dá o corte de
+      // raspão. No mobile, positiva, a palavra assenta inteira acima da
+      // linha. Em em para o corte manter a proporção quando o corpo cresce.
+      className="-ml-[0.035em] mb-[0.15em] block select-none text-left font-display text-[min(28vw,58vh)] text-[#E8E3D7] md:-mb-[0.09em] md:ml-0 md:text-[min(33vw,58vh)]"
+      style={{
+        fontWeight: 800,
+        lineHeight: 0.74,
+        letterSpacing: '-0.045em',
+      }}
+    >
+      TRIUM
+    </span>
   );
 }
 
@@ -101,66 +97,105 @@ export function Contato() {
       ref={ref}
       id="contato"
       data-snap-section="contato"
-      className="snap-section relative flex h-screen w-full flex-col items-center justify-center overflow-hidden px-6 text-center"
+      className="snap-section relative flex h-screen w-full flex-col justify-between overflow-hidden"
       style={{ height: '100svh' }}
     >
-      <div className="relative z-10 mx-auto w-full max-w-3xl">
+      {/* ── Faixa superior: convite à esquerda, nota e rede à direita ── */}
+      {/* flex-1 + justify-center no mobile: sem isso o bloco encosta no topo
+          e todo o vazio da tela se acumula de uma vez só entre ele e o
+          monumento. Centralizado, a folga se reparte acima e abaixo. */}
+      <div className="relative z-10 flex flex-1 flex-col justify-center gap-10 px-6 pt-16 md:flex-row md:items-start md:justify-between md:gap-16 md:px-12 md:pt-28">
+        <div>
+          <motion.h2
+            data-cursor="hover"
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-10% 0px' }}
+            transition={{ duration: 0.9, ease: EASE }}
+            className="font-display font-bold leading-[0.94] tracking-[-0.025em] text-[#E8E3D7]"
+            style={{ fontSize: 'clamp(32px, 4.6vw, 60px)' }}
+          >
+            conta sua ideia
+            <br />
+            a gente constrói
+          </motion.h2>
+
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-10% 0px' }}
+            transition={{ duration: 0.8, delay: 0.12, ease: EASE }}
+            className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:gap-4"
+          >
+            <ActionPill
+              href={WHATSAPP_URL}
+              label="Chamar no WhatsApp"
+              aria="Falar via WhatsApp (abre em nova aba)"
+            />
+            <ActionPill
+              href={EMAIL_URL}
+              label="Mandar um e-mail"
+              aria="Enviar e-mail para a TRIUM"
+            />
+          </motion.div>
+        </div>
+
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-10% 0px' }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-5 font-mono text-tiny uppercase tracking-[0.3em] text-white/50 terminal-cursor"
+          transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
+          className="max-w-xs shrink-0 md:text-right"
         >
-          ✦ Vamos conversar
-        </motion.div>
-
-        <motion.h2
-          data-cursor="hover"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-10% 0px' }}
-          transition={{ duration: 0.9, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-bold leading-[0.9] tracking-[-0.02em] text-white"
-          style={{ fontSize: 'clamp(48px, 9vw, 132px)' }}
-        >
-          conta sua <span className="font-lora font-normal italic text-teal">ideia</span>
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-10% 0px' }}
-          transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto mt-7 max-w-lg font-lora text-body-lg text-white/70"
-        >
-          Conta o que você quer construir. Respondemos em até 24 horas — direto
-          com quem projeta e desenvolve.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-10% 0px' }}
-          transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-11 flex flex-col items-center justify-center gap-5 sm:flex-row sm:gap-7"
-        >
-          <ContactButton
-            href={WHATSAPP_URL}
-            icon={<WhatsAppIcon />}
-            label="WhatsApp"
-            aria="Falar via WhatsApp (abre em nova aba)"
-          />
-          <ContactButton
+          <p className="font-lora text-[15px] leading-relaxed text-[#E8E3D7]/60">
+            Resposta em até 24 horas — direto com quem projeta e desenvolve,
+            sem intermediário.
+          </p>
+          <a
             href={INSTAGRAM_URL}
-            icon={<InstagramIcon />}
-            label="Instagram"
-            aria="Ver Instagram (abre em nova aba)"
-          />
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cursor="hover"
+            data-cursor-label="Seguir"
+            aria-label="Ver o Instagram da TRIUM (abre em nova aba)"
+            className="group mt-7 inline-flex flex-col items-start md:items-end"
+          >
+            <span
+              className="inline-flex items-baseline gap-2.5 font-display font-bold leading-none tracking-[-0.02em] text-[#E8E3D7] transition-colors duration-500 ease-artisan group-hover:text-teal"
+              style={{ fontSize: 'clamp(26px, 2.6vw, 38px)' }}
+            >
+              Instagram
+              <span
+                className="text-teal transition-transform duration-500 ease-artisan group-hover:-translate-y-1 group-hover:translate-x-1"
+                style={{ fontSize: '0.55em' }}
+              >
+                ↗
+              </span>
+            </span>
+            {/* fio que acende no hover — o sublinhado cresce do lado em que
+                o bloco está ancorado (direita no desktop, esquerda no mobile) */}
+            <span className="mt-2 block h-px w-full origin-left bg-[#E8E3D7]/25 transition-colors duration-500 ease-artisan group-hover:bg-teal md:origin-right" />
+            <span className="mt-2.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#E8E3D7]/45 transition-colors duration-500 group-hover:text-[#E8E3D7]/70">
+              @triumworks
+            </span>
+          </a>
         </motion.div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.25em] text-white/35">
+      {/* ── Monumento: sangra de borda a borda, cortado pelo rodapé ── */}
+      <div className="relative z-10 mt-auto overflow-hidden">
+        <motion.div
+          initial={{ y: '18%' }}
+          whileInView={{ y: '0%' }}
+          viewport={{ once: true, margin: '-15% 0px' }}
+          transition={{ duration: 1.1, ease: EASE }}
+        >
+          <Monumento />
+        </motion.div>
+      </div>
+
+      {/* ── Rodapé ── */}
+      <div className="relative z-10 border-t border-[#E8E3D7]/10 px-6 py-5 text-center font-mono text-[10px] uppercase tracking-[0.25em] text-white/35 md:px-12">
         TRIUM — Volta Redonda, RJ
       </div>
     </section>
